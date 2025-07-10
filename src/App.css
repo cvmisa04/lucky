@@ -1,38 +1,222 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* Osnovni stilovi za aplikaciju */
+.app {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background: linear-gradient(to right, #2b2d42, #8d99ae);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #ffcc00;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  margin-bottom: 30px;
+}
+
+/* Stil za poklon koji se otvara */
+.gift-box {
+  font-size: 80px;
+  color: gold;
+  transition: transform 0.3s ease-out;
+}
+
+.gift-box.opened {
+  transform: scale(1.3) rotate(15deg);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #2b2d42;
+  border-radius: 15px;
+  padding: 50px 40px; /* Povećali smo padding za više prostora */
+  box-shadow: 0 0 40px rgba(255, 204, 0, 0.6); /* Malo jači box-shadow */
+  text-align: center;
+  width: 600px; /* Proširili širinu */
+  max-width: 90%; /* Da se ne preklapa na manjim ekranima */
+  height: auto; /* Visina se automatski prilagođava */
+  position: relative;
+}
+
+.modal-content h2 {
+  font-size: 3rem; /* Povećali font za podnaslov */
+  color: #ffcc00;
+  margin-bottom: 20px;
+}
+
+.modal-content p {
+  font-size: 4rem; /* Povećali font za tekst u modalu */
+  color: white;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Ikona poklona iznad sadržaja modala */
+.gift-icon {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  font-size: 4rem;
+  color: #ffcc00;
+  z-index: 1100;
+  animation: bounce 2s infinite, rotate 5s infinite linear;
+}
+
+
+
+
+/* Animacija skakanja i rotacije poklona */
+@keyframes bounce {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(20deg); }
+  50% { transform: translateY(0) rotate(-20deg); }
+  75% { transform: translateY(-10px) rotate(20deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Stil za poslednji izvučeni broj */
+.drawn-box {
+  background-color: #2b2d42;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.drawn-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffcc00;
+  animation: shine 1.5s infinite;
+}
+
+.drawn-prize {
+  font-size: 1.5rem;
+  color: white;
+  margin-top: 20px;
+}
+
+/* Lista nagrada */
+.prize-list {
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #2b2d42;
+  padding: 20px;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.prize-item {
+  font-size: 1.2rem;
+  padding: 12px;
+  margin-bottom: 12px;
+  background-color: #444;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  transition: transform 0.3s ease-out;
+}
+
+.prize-item.drawn {
+  background-color: #ffcc00;
+  color: #2b2d42;
+  font-weight: bold;
+}
+
+/* Animacija za "shine" efekat na broju */
+@keyframes shine {
+  0% { text-shadow: 0 0 10px rgba(255, 204, 0, 0.5), 0 0 20px rgba(255, 204, 0, 0.7); }
+  50% { text-shadow: 0 0 20px rgba(255, 204, 0, 0.5), 0 0 30px rgba(255, 204, 0, 0.7); }
+  100% { text-shadow: 0 0 10px rgba(255, 204, 0, 0.5), 0 0 20px rgba(255, 204, 0, 0.7); }
+}
+
+/* Horizontalna traka istorije brojeva */
+.history-strip {
+  display: flex;
+  overflow-x: auto; /* Omogućava horizontalni skrol */
+  gap: 20px;
+  padding: 20px 10px;
+  margin: 30px 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100%; /* Da bi mogla da se širi */
+  box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2);
+}
+
+/* Stil za pojedinačne kutije u istoriji */
+.history-box {
+  background-color: #2b2d42;
+  border: 2px solid #ffcc00;
+  padding: 12px;
+  border-radius: 10px;
+  min-width: 180px; /* Povećana širina svakog elementa */
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.history-box.latest {
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 20px #ffffff;
+}
+
+/* Stil za broj u istoriji */
+.history-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffcc00;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.history-prize {
+  font-size: 1rem;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Stil za šine u istoriji */
+.shine-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.shine-number {
+  font-size: 2.5rem;
+  color: #ffcc00;
+  font-weight: bold;
+}
+
+.prize-title {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: bold;
 }
